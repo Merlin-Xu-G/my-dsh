@@ -1,0 +1,13 @@
+{
+  "profile": "desktop",
+  "createdAt": "2026-10-10T15:14:13+08:00",
+  "createdDshVersion": "0.2.0-rc.2",
+  "lastUpdatedAt": "2026-10-10T15:14:13+08:00",
+  "lastUpdatedDshVersion": "0.2.0-rc.2",
+  "lastCheckedAt": "2026-10-10T15:14:13+08:00",
+  "dshVersionAtLastCheck": "0.2.0-rc.2",
+  "files": {
+    "package.json": "sha256:59785917053aaa9bea2f925ad60875846c31bb2a827141d6ed632f3b543136a0",
+    "cordis.patch.yml": "sha256:0d0ca295b17d4103c0a0b2ee4c9c09e5da1af43520be3b0397b9f9b55218cf81"
+  }
+}
