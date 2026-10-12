@@ -2,12 +2,12 @@
   "profile": "desktop",
   "createdAt": "2026-10-10T15:14:13+08:00",
   "createdDshVersion": "0.2.0-rc.2",
-  "lastUpdatedAt": "2026-10-12T11:33:19+08:00",
+  "lastUpdatedAt": "2026-10-12T06:13:44+00:00",
   "lastUpdatedDshVersion": "0.2.0-rc.2",
-  "lastCheckedAt": "2026-10-12T11:33:19+08:00",
+  "lastCheckedAt": "2026-10-12T06:13:44+00:00",
   "dshVersionAtLastCheck": "0.2.0-rc.2",
   "files": {
-    "cordis.patch.yml": "sha256:0d0ca295b17d4103c0a0b2ee4c9c09e5da1af43520be3b0397b9f9b55218cf81",
-    "package.json": "sha256:fd12368456efbe34d981f5deb97f2539b4be7d223a748a8b6bf7c35f62acb057"
+    "cordis.patch.yml": "sha256:ca4bc5ffb98039842365999f0ce193b0d9505273500894f280bb9d96a5167993",
+    "package.json": "sha256:178632f735f0fdd8b288099f6b7cefc836bc23fe240143aff754d6f623010c7c"
   }
 }

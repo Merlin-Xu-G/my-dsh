@@ -2,9 +2,9 @@
   "name": "dsh-profile-desktop",
   "private": true,
   "dependencies": {
-    "@local/dsh-memories": "link:D:/workspace/github/Merlin-Xu-G/dsh-memories",
-    "@local/dsh-software-factory": "link:D:/workspace/github/Merlin-Xu-G/dsh-software-factory",
-    "@local/my-dsh": "link:D:/workspace/github/Merlin-Xu-G/my-dsh"
+    "@local/dsh-memories": "github:Merlin-Xu-G/dsh-memories",
+    "@local/dsh-software-factory": "github:Merlin-Xu-G/dsh-software-factory",
+    "@local/my-dsh": "github:Merlin-Xu-G/my-dsh"
   },
   "dsh": {
     "profile": {
