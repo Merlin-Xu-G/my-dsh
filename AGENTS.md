@@ -9,6 +9,7 @@ The goal is to make my DSH setup **declarative**: every customization lives here
 ## Layout
 
 - `project.yaml` — DSH project marker (`dsh-version`).
+- `package.json` / `cordis.patch.yml` / `index.js` / `locale/` — the repo's own DSH bundle (`@local/my-dsh`, row `my-dsh`), providing the `/backup` and `/restore` commands.
 - `skills/` — local DSH skills (see below).
 - `backup/profiles/<name>/` — declarative backup of each DSH profile: `package.json`, `cordis.patch.yml`, `meta.json` (versions + timestamps + hashes).
 - `references/dsh-plugin-development/` — plugin development docs extracted from the DSH app. Read-only reference; see its `INDEX.md`.
@@ -35,3 +36,4 @@ Skills are grouped in the repository: `skills/<group>/<name>/SKILL.md` plus opti
 - No machine-specific absolute paths in tracked files.
 - Before writing any plugin or patch, read `references/dsh-plugin-development/INDEX.md` first.
 - After changing a profile's payload, offer to run `dsh-profile-backup` so `backup/profiles/` and reality stay in sync.
+- `/backup` and `/restore` (from the `@local/my-dsh` bundle) are the sanctioned interactive paths for the backup/sync procedures; the git steps they drive always ask first. Bundle-row config for this plugin (e.g. the machine-local `plugins` list) belongs in the profile's `cordis.patch.yml` override, not in tracked files.

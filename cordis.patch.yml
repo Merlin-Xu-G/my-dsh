@@ -1,0 +1,18 @@
+# The my-dsh bundle patch: one Host plugin row owning the /backup and
+# /restore commands for this repository.
+#
+# Config (all optional, unknown keys fail at activation):
+#   plugins: string[]  plugin_manager install_bundle targets, in install
+#                      order. Local absolute paths are machine-specific —
+#                      put them in a machine-local profile row override
+#                      (the user's cordis.patch.yml), not in this tracked
+#                      default; git specs are committable once repos are
+#                      pushed.
+#   autoPush: boolean  whether /backup offers `git push` when an origin
+#                      remote exists (default true).
+# A later layer overriding this row replaces `config` wholesale — restate
+# every field you need.
+- insert:
+    - id: my-dsh
+      name: '@local/my-dsh'
+      config: {}

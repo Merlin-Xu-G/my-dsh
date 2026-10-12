@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "my-dsh 命令",
+    "description": "添加 /backup（将 DSH 配置快照备份到本仓库并提交、可选推送）与 /restore（同步仓库技能并安装配置的插件）。"
+  }
+}

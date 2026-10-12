@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "my-dsh Commands",
+    "description": "Adds /backup (snapshot DSH profile payloads into this repository, then commit and optionally push) and /restore (sync the repo skills and install the configured plugins)."
+  }
+}
