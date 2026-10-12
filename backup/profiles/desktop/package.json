@@ -1,7 +1,11 @@
 {
   "name": "dsh-profile-desktop",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "@local/dsh-memories": "link:D:/workspace/github/Merlin-Xu-G/dsh-memories",
+    "@local/dsh-software-factory": "link:D:/workspace/github/Merlin-Xu-G/dsh-software-factory",
+    "@local/my-dsh": "link:D:/workspace/github/Merlin-Xu-G/my-dsh"
+  },
   "dsh": {
     "profile": {
       "bundles": [
@@ -9,7 +13,10 @@
         "@deepseek-ai/dsh-web-app",
         "@deepseek-ai/dsh-experimental-agent-team-profile",
         "@deepseek-ai/dsh-experimental-auto-review",
-        "@deepseek-ai/dsh-experimental-schedule-bundle"
+        "@deepseek-ai/dsh-experimental-schedule-bundle",
+        "@local/dsh-software-factory",
+        "@local/dsh-memories",
+        "@local/my-dsh"
       ]
     }
   }
