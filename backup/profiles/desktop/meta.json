@@ -1,13 +1,13 @@
-{
-  "profile": "desktop",
-  "createdAt": "2026-10-10T15:14:13+08:00",
-  "createdDshVersion": "0.2.0-rc.2",
-  "lastUpdatedAt": "2026-10-12T06:13:44+00:00",
-  "lastUpdatedDshVersion": "0.2.0-rc.2",
-  "lastCheckedAt": "2026-10-12T06:13:44+00:00",
-  "dshVersionAtLastCheck": "0.2.0-rc.2",
-  "files": {
-    "cordis.patch.yml": "sha256:ca4bc5ffb98039842365999f0ce193b0d9505273500894f280bb9d96a5167993",
-    "package.json": "sha256:178632f735f0fdd8b288099f6b7cefc836bc23fe240143aff754d6f623010c7c"
-  }
+﻿{
+    "profile":  "desktop",
+    "createdAt":  "2026-10-10T15:14:13+08:00",
+    "createdDshVersion":  "0.2.0-rc.2",
+    "lastUpdatedAt":  "2026-10-20T03:44:51+00:00",
+    "lastUpdatedDshVersion":  "0.2.1-rc.2",
+    "lastCheckedAt":  "2026-10-20T03:44:51+00:00",
+    "dshVersionAtLastCheck":  "0.2.1-rc.2",
+    "files":  {
+                  "cordis.patch.yml":  "sha256:a0eb0c6a4cdb88a7e4fbb410bb83211cb0d7a1a59a768cedbb5e870cb2251b9f",
+                  "package.json":  "sha256:d32d200467831f902ebdf1cf3aba4fc58beff4067cb0b35e0b5b624c72fb3d6f"
+              }
 }
