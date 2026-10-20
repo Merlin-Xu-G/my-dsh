@@ -13,7 +13,7 @@
 # A later layer overriding this row replaces `config` wholesale — restate
 # every field you need.
 #
-# Default plugin set: the two published bundles from this setup, installed
+# Default plugin set: the three published bundles from this setup, installed
 # by /restore in this order on every machine (git specs only — see above).
 - insert:
     - id: my-dsh
@@ -22,3 +22,4 @@
         plugins:
           - 'https://github.com/Merlin-Xu-G/dsh-software-factory'
           - 'https://github.com/Merlin-Xu-G/dsh-memories'
+          - 'https://github.com/Merlin-Xu-G/dsh-git-actions'
