@@ -11,6 +11,7 @@ The goal is to make my DSH setup **declarative**: every customization lives here
 - `project.yaml` — DSH project marker (`dsh-version`).
 - `package.json` / `cordis.patch.yml` / `index.js` / `locale/` — the repo's own DSH bundle (`@local/my-dsh`, row `my-dsh`), providing the `/backup` and `/restore` commands.
 - `skills/` — local DSH skills (see below).
+- `.dsh/skills/` — project-level DSH skills, scanned natively for sessions inside this repo (see below).
 - `backup/profiles/<name>/` — declarative backup of each DSH profile: `package.json`, `cordis.patch.yml`, `meta.json` (versions + timestamps + hashes).
 - `references/dsh-plugin-development/` — plugin development docs extracted from the DSH app. Read-only reference; see its `INDEX.md`.
 - `references/dsh-profile-anatomy.md` — how DSH generates `~/.dsh/profiles` and what upgrades touch.
@@ -20,12 +21,16 @@ The goal is to make my DSH setup **declarative**: every customization lives here
 
 Skills are grouped in the repository: `skills/<group>/<name>/SKILL.md` plus optional `scripts/`, `references/`, `templates/` subdirectories (DSH skills live in `skills/dsh/`; more groups may follow). `dsh-sync-skills` installs them **flat** into `~/.dsh/skills/<name>/` — DSH discovery is one level deep — so skill names must be unique across all groups.
 
+Project-level skills live at `.dsh/skills/<name>/SKILL.md` (also flat). DSH scans `<repo>/.dsh/skills` natively for sessions opened inside this repo, at a rank above the user skill root, so these skills need no `dsh-sync-skills` install and never appear in `~/.dsh/skills`.
+
 **Creating a skill:**
 - Frontmatter: `name` (kebab-case, matches the directory, ≤64 chars) and `description` (required, third person, states what it does and when to use it); optional `whenToUse`.
 - Provenance: every skill carries a `metadata` block in its frontmatter — `createdAt`, `createdDshVersion`, `lastUpdatedAt`, `lastUpdatedDshVersion`. Set the creation pair once when authoring; refresh the last-update pair (timestamp + current DSH version via the shared helper) on every edit.
 - Body = executable instructions for an agent: concrete steps, exact paths, decision rules, and safety constraints. Keep it deterministic — another agent must produce the same result.
 - Shared helper scripts live once in `skills/dsh/scripts/` (a plain directory, never a skill — no SKILL.md). `dsh-sync-skills` mirrors it to `$DSH_HOME/my-dsh-lib/scripts/`, and skills hardcode that installed path (`$DSH_HOME/my-dsh-lib/scripts/<file>`, default `~/.dsh/my-dsh-lib/scripts/<file>`); keep a `dsh --version`-style fallback for pre-sync machines. Never copy helper scripts into individual skills.
 - Existing skills: `dsh-profile-backup` (snapshot `~/.dsh/profiles` payloads into `backup/profiles/` with version metadata), `dsh-profile-restore` (apply them back after confirmation), and `dsh-sync-skills` (copy repo skills into `~/.dsh/skills` and the shared library into `~/.dsh/my-dsh-lib`, without touching foreign skills).
+
+`dsh-plugin-repo-status` (one-table status report over the four DSH plugin repos) is project-level and lives in `.dsh/skills/` — it is not part of the sync flow.
 
 **Installing skills to the local DSH:** run `dsh-sync-skills` — it copies each repo skill into the user skill root (`~/.dsh/skills`), which DSH scans natively, and records repo-owned copies in `~/.dsh/skills/.dsh-sync-manifest.json`; anything not in the manifest is foreign and is never modified or removed. Copies do not self-update: re-run `dsh-sync-skills` after editing skills in the repo. New conversations pick up catalog changes automatically (a running conversation's catalog does not refresh). DSH also scans `<repo>/.dsh/skills` and `<repo>/.agents/skills` for sessions opened inside this repo.
 
