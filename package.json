@@ -1,6 +1,6 @@
 {
   "name": "@local/my-dsh",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "description": "Turns this settings repository into a DSH bundle: /backup snapshots DSH profile payloads into backup/ and commits (optionally pushes) them; /restore syncs the skills and installs the configured plugins.",
@@ -14,9 +14,13 @@
     "cordis.patch.yml",
     "locale/*.json"
   ],
+  "engines": {
+    "dsh": ">=0.2.1-rc.3"
+  },
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
-    }
+    },
+    "latestTestedDshVersion": "0.2.1-rc.3"
   }
 }
