@@ -1,10 +1,10 @@
 ---
 name: dsh-plugin-repo-status
-description: Reports the status of the user's DSH plugin repositories in one table — per repo the uncommitted changes, unpushed commits, and every remote branch without an open PR classified as a merged leftover or unmerged. Use when the user asks for a repo status report, a leftover-branch review, or what still needs committing, pushing, or PR-ing across the DSH plugin repos.
+description: Reports the status of the user's DSH plugin repositories in one table — per repo the uncommitted changes, unpushed commits, remote branches with no PR yet, and leftover branches from closed PRs classified as merged or unmerged. Use when the user asks for a repo status report, a leftover-branch review, or what still needs committing, pushing, or PR-ing across the DSH plugin repos.
 metadata:
   createdAt: "2026-10-22T03:31:46+00:00"
   createdDshVersion: "0.2.1-rc.2"
-  lastUpdatedAt: "2026-10-22T08:57:00+00:00"
+  lastUpdatedAt: "2026-10-26T01:40:40+00:00"
   lastUpdatedDshVersion: "0.2.1-rc.2"
 ---
 
@@ -33,24 +33,36 @@ the report only describes state and never changes it.
    - unpushed commits: with upstream `git rev-list --count @{u}..HEAD`;
      without upstream `git rev-list --count origin/main..HEAD`, marked
      "local only — no remote branch, no PR"
-3. **Open PRs.** Owner/name come from `git remote get-url origin` (strip the
-   `https://github.com/` prefix and `.git` suffix). For each repo run
+3. **Open PRs.** Owner/name come from `git remote get-url origin` (strip an
+   `https://github.com/` or `git@github.com:` prefix and the `.git`
+   suffix). For each repo run
    `gh pr list -R <owner>/<name> --state open --json number,headRefName` and
-   `gh pr list -R <owner>/<name> --state merged --json number,headRefName,mergedAt --limit 50`
-   (the merged list supplies PR numbers for leftover branches). If `gh` is
+   `gh pr list -R <owner>/<name> --state closed --json number,headRefName,mergedAt --limit 50`
+   (closed includes merged; `mergedAt` set ⇔ merged — this supplies PR
+   state and numbers for leftover classification). If `gh` is
    missing or unauthenticated, mark PR data "unverified" and classify
    branches by merge state alone.
-4. **Classify every remote branch except `origin/HEAD` and `origin/main`**
-   that is not the head of an open PR, testing in order:
-   1. listed by `git branch -r --merged origin/main` → **✅ merged leftover**
-   2. `git diff origin/main origin/<branch> --shortstat` is empty
-      (content identical to main) → **✅ merged leftover**
-   3. `git cherry origin/main origin/<branch>` prints only lines starting
-      with `-` (patch-equivalent commits on main) → **✅ merged leftover**
-      (squash-merged)
-   4. otherwise → **⚠️ unmerged**: add its last commit date
-      (`git log -1 --format=%cs origin/<branch>`) and the two-dot shortstat
-      `git diff origin/main origin/<branch> --shortstat`
+4. **Split every remote branch except `origin/HEAD` and `origin/main` that
+   is not the head of an open PR** by PR state:
+   - **No PR at all** → **PR not opened yet** (column 4; never a leftover):
+     report the branch with its last commit date
+     (`git log -1 --format=%cs origin/<branch>`); when
+     `git diff origin/main origin/<branch> --shortstat` is empty, append
+     "content already on main".
+   - **Head of a closed PR** (newest PR for the branch wins) → **leftover**,
+     decided in order:
+      1. that PR has `mergedAt` set → **✅ merged leftover** with that PR
+         number (PR state is authoritative: a squash-merged branch can
+         fail every patch test yet be merged — note when tests disagree)
+      2. listed by `git branch -r --merged origin/main` →
+         **✅ merged leftover**
+      3. `git diff origin/main origin/<branch> --shortstat` is empty
+         (content identical to main) → **✅ merged leftover**
+      4. `git cherry origin/main origin/<branch>` prints only lines
+         starting with `-` (patch-equivalent commits on main) →
+         **✅ merged leftover** (squash-merged)
+      5. otherwise → **⚠️ unmerged**: add its last commit date and the
+         two-dot shortstat `git diff origin/main origin/<branch> --shortstat`
 5. **Report ONE table**, one row per repo in the fixed order, columns
    exactly:
 
@@ -60,15 +72,19 @@ the report only describes state and never changes it.
      that repo).
    - **Unpushed**: `— none` or `N commits (+ M dirty files)`; append the
      "local only" marker when the branch has no upstream.
-   - **Pushed but no open PR**: one branch per line, tagged ✅ or ⚠️, with
-     the merged PR number for ✅ branches and the last-commit date for ⚠️
-     branches.
-   - **Leftover**: `A merged / B unmerged → ✅ delete OK · ⚠️ review first`.
+   - **Pushed but no open PR**: branches with no PR ever opened ("not open
+     yet" — branches whose PR is closed do NOT belong here), one per line
+     as `<branch> — YYYY-MM-DD` (last-commit date); no ✅/⚠️ tags — those
+     are leftover-only.
+   - **Leftover**: one branch per line (`✅ <branch> — PR #N` or
+     `⚠️ <branch> — YYYY-MM-DD`), then
+     `A merged / B unmerged → ✅ delete OK · ⚠️ review first`.
 
    Under the table: the legend (✅ merged leftover — content on main, safe
-   to delete; ⚠️ never merged, no PR — review first) and a totals line:
-   merged leftovers, unmerged stale branches, and live unmerged workstreams
-   (repos with uncommitted or unpushed work).
+   to delete; ⚠️ unmerged leftover — PR closed without merging, review
+   first) and a totals line: merged leftovers, unmerged stale branches, and
+   live unmerged workstreams (repos with uncommitted work, unpushed
+   commits, or pushed branches with no PR yet).
 
 ## Rules
 
